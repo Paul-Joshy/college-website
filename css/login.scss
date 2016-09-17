@@ -1,0 +1,340 @@
+@import "normalize.css";
+
+/******************
+
+Few mixins
+
+******************/
+
+@mixin linear-gradient-top-bottom($top,$bottom){
+    background: $top;
+    background: -moz-linear-gradient(top,  $top 0%, $bottom 100%);
+    background: -webkit-linear-gradient(top,  $top 0%,$bottom 100%);
+    background: linear-gradient(to bottom,  $top 0%,$bottom 100%);
+}
+
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
+
+
+/******************
+
+Few static variables
+
+******************/
+
+//  Sizing
+
+$bodySize: 960px;
+
+//  Colors
+
+$primaryBg: #424242;
+$headerBg: #272727;
+$tileBg: #303030;
+
+$navColor: #777;
+
+//  Gutter
+
+$gutter: 10px;
+
+/******************
+
+Basic styles
+
+******************/
+
+body {
+    background-color : $primaryBg;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+
+    padding: $gutter;
+
+    box-sizing: border-box;;
+}
+
+.to-center{
+    display: block;
+
+    margin: 0 auto;
+    padding: 0px $gutter;
+
+    box-sizing: border-box;;
+}
+
+.to-center.body-width{
+    width: 100%;
+    max-width: $bodySize;
+}
+
+.to-left{
+    float: left;
+}
+
+.to-right{
+    float: right;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+/******************
+
+Navigation
+
+******************/
+
+$navHeight: 16px * 2;
+
+#navigation {
+
+    display: block;
+    width: 100%;
+    height: $navHeight;
+    background-color: 	#041F3D;
+
+    line-height: $navHeight;
+    box-sizing: border-box;
+
+    color: white;
+
+    .to-center{
+        a {
+            display: inline-block;
+
+            color: inherit;
+        }
+    }
+	
+	.to-right{
+		a{
+			padding: 0px $gutter;
+			border-style: solid;
+			border-color: #888;
+			border-width: 0px 1px 0px 0px;
+		}
+		
+		a:last-child{
+			border: none;
+		}
+	}
+}
+
+#navigation a#next-btn{
+	width: 0; 
+  	height: 0; 
+	
+	margin: 0px 10px;
+	
+  	border-top: 5px solid transparent;
+  	border-bottom: 5px solid transparent;
+  	border-left: 10px solid white;
+	
+	background: none;
+	box-shadow: none;
+}
+
+#navigation #horizontal-scroller{
+	display: inline-block;
+	
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+	line-height: inherit;
+	
+	li{
+		display: none;
+		
+		color: #e6e600;
+	}
+	
+	li:first-child{
+		display: inline-block;
+		
+		line-height: inherit;
+	}
+}
+
+/******************
+
+Header
+
+******************/
+
+$headerHeight: 200px;
+
+header{
+
+    width: 100%;
+    height: $headerHeight;
+
+    @include linear-gradient-top-bottom(#0d6da2, #041F3D);
+
+    .to-center{
+        height: inherit;
+        line-height: $headerHeight;
+
+        text-align: center;
+
+        img{
+            width: 300px;
+            vertical-align: middle;
+        }
+    }
+
+}
+
+/******************
+
+Floating-nav
+
+******************/
+
+#floating-nav{
+    @extend #navigation;
+    position: relative;
+    top: 0px;
+    left: 0px;
+	z-index: 1000;
+	
+	text-align: center;
+	
+	background-color: #041F3D;
+
+    &.float{
+        position: fixed;
+    }
+	
+	a{
+		padding: 0px $gutter;
+		border-style: solid;
+		border-color: #888;
+		border-width: 0px 1px 0px 0px;
+	}
+	
+	a:last-child{
+		border-width: 0px 0px 0px 0px;
+	}
+	
+	a:hover{
+		color: #e6e600;
+	}
+}
+
+/******************
+
+Big-banner
+
+******************/
+
+#big-banner > .to-center{
+	height: 350px;
+    white-space: nowrap;
+
+    padding: 50px;
+}
+
+#big-banner{
+    display: inline-block;
+    width: 100%;
+
+    text-align: center;
+	
+	background: url(../images/bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
+	
+	.to-center{
+		background: -moz-linear-gradient(to bottom, rgba(4, 31, 61, 1), rgba(4, 31, 61, 0.9));
+		background: -webkit-gradient(to bottom, rgba(4, 31, 61, 1), rgba(4, 31, 61, 0.9));
+		background: -ms-linear-gradient(to bottom, rgba(4, 31, 61, 1), rgba(4, 31, 61, 0.9));
+		background: linear-gradient(to bottom, rgba(4, 31, 61, 1), rgba(4, 31, 61, 0.8)) !important;
+	}
+	
+    .bar{
+        display: inline-block;
+        width: 14px;
+
+        padding: 8px;
+
+        vertical-align: top;
+
+        .bar-padding{
+            display: block;
+            width: 100%;
+            height: 10px;
+        }
+
+        .bar-content{
+            display: block;
+            width: 100%;
+            height: 200px;
+
+            overflow: hidden;
+
+            @include transition(height 2s);
+
+            img{
+                @include transition(opacity 2s);
+
+                opacity: 0;
+            }
+        }
+
+        @include transition(width 2s);
+
+        &.active{
+            width: 340px;
+            height: 220px;
+
+            .bar-content{
+                height: 220px !important;
+
+                img{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+/******************
+
+Big-widget
+
+******************/
+
+#widget{
+	height: 700px;
+	
+	background: #eee;
+	color: $headerBg;
+	
+	h1, h2, h3, a, li, p{
+		color: inherit;
+	}
+}
+
+/******************
+
+Footer
+
+******************/
+
+footer{
+	height: 200px;
+	background: $tileBg;
+}
